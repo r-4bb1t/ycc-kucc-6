@@ -2,9 +2,10 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { dummy } from "../../constant";
 import { format } from "date-fns";
+import { throttle } from "throttle-debounce";
 
 const articles = [
   {
@@ -27,6 +28,9 @@ const articles = [
 const Home: NextPage = () => {
   const router = useRouter();
   const info = dummy.find((d) => d.code === router.query["code"]);
+  const [search, setSearch] = useState("");
+  const [filteredArticles, setFilteredArticles] = useState(articles);
+
   if (!info) {
     return null;
   }
@@ -52,7 +56,7 @@ const Home: NextPage = () => {
             <td className="min-w-[100px] text-right pr-4">작성 일시</td>
           </thead>
           <tbody>
-            {articles.map((a, i) => (
+            {filteredArticles.map((a, i) => (
               <>
                 <tr
                   key={i}
@@ -87,6 +91,19 @@ const Home: NextPage = () => {
             ))}
           </tbody>
         </table>
+
+        <div className="w-full flex justify-center gap-4 items-center text-slate-700 font-bold mt-10">
+          검색
+          <input className="input bg-slate-200" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <button className="btn btn-ghost hover:bg-slate-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13">
+              <g strokeWidth="2" fill="none" className="stroke-slate-400">
+                <path d="M11.29 11.71l-4-4" />
+                <circle cx="5" cy="5" r="4" />
+              </g>
+            </svg>
+          </button>
+        </div>
       </main>
 
       <Footer />

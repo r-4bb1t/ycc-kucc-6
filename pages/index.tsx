@@ -17,10 +17,10 @@ const Home: NextPage = () => {
         setFilteredDummy(
           dummy.filter(
             (d) =>
-              d.title.includes(search) ||
-              d.code.includes(search) ||
-              d.professor.includes(search) ||
-              d.class.includes(search),
+              d.title.toLowerCase().includes(search.toLowerCase()) ||
+              d.code.toLowerCase().includes(search.toLowerCase()) ||
+              d.professor.toLowerCase().includes(search.toLowerCase()) ||
+              d.class.toLowerCase().includes(search.toLowerCase()),
           ),
         );
     })();
@@ -36,15 +36,7 @@ const Home: NextPage = () => {
             <div className="font-normal text-sm">과목명, 학과, 학수번호, 교수명</div>
             검색
           </div>
-          <input className="input bg-slate-200" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <button className="btn btn-ghost hover:bg-slate-200">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13">
-              <g strokeWidth="2" fill="none" className="stroke-slate-400">
-                <path d="M11.29 11.71l-4-4" />
-                <circle cx="5" cy="5" r="4" />
-              </g>
-            </svg>
-          </button>
+          <input className="input bg-slate-200 w-80" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
 
         <div className="mb-2">

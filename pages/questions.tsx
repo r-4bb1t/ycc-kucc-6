@@ -3,10 +3,11 @@ import Header from "components/Header";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
+import { useState } from "react";
 
 const articles = [
   {
-    code: "COSE222-11",
+    code: "ALCH222-11",
     id: 2,
     title: "과제 블랙보드에 내는건가요?",
     date: new Date(),
@@ -43,6 +44,8 @@ const articles = [
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const [search, setSearch] = useState("");
+
   return (
     <div className="w-full pt-16 flex flex-col items-center">
       <Header />
@@ -90,6 +93,19 @@ const Home: NextPage = () => {
             ))}
           </tbody>
         </table>
+
+        <div className="w-full flex justify-center gap-4 items-center text-slate-700 font-bold mt-10">
+          검색
+          <input className="input bg-slate-200" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <button className="btn btn-ghost hover:bg-slate-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13">
+              <g strokeWidth="2" fill="none" className="stroke-slate-400">
+                <path d="M11.29 11.71l-4-4" />
+                <circle cx="5" cy="5" r="4" />
+              </g>
+            </svg>
+          </button>
+        </div>
       </main>
 
       <Footer />
