@@ -17,7 +17,7 @@ const CoursePage: NextPage = () => {
   const fecthData = useCallback(async () => {
     if (!router.query["code"]) return;
     const aData = await axios.get(`${process.env.API_HOST}/board/${router.query["code"]}`);
-    setArticles(aData.data);
+    setArticles(aData.data.reverse());
     const iData = await axios.get(`${process.env.API_HOST}/courses`);
     setInfo(iData.data.find((i: Course) => i._id === router.query["code"]));
   }, [router.query]);
@@ -69,7 +69,7 @@ const CoursePage: NextPage = () => {
                     </div>
                   </td>
                   <td className="pt-1 w-full">{a.title}</td>
-                  <td className="text-sm text-right pr-4 whitespace-nowrap" rowSpan={2}>
+                  <td className="text-[10px] text-right pr-4 whitespace-nowrap" rowSpan={2}>
                     {/* {format(, "yyyy-MM-dd hh:mm")} */}
                     {a.createdAt}
                   </td>

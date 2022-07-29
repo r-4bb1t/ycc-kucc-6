@@ -3,17 +3,20 @@ import Header from "components/Header";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { Article, Board } from "constant";
+import { Article, Board, Course } from "constant";
 import axios from "axios";
 
 const Questions: NextPage = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [articles, setArticles] = useState([] as Board[]);
+  const [courses, setCourses] = useState([] as Course[]);
 
   const fecthData = useCallback(async () => {
     const qData = await axios.get(`${process.env.API_HOST}/board/questions`);
-    setArticles(qData.data);
+    setArticles(qData.data.reverse());
+    const cData = await axios.get(`${process.env.API_HOST}/courses`);
+    setCourses(cData.data);
   }, []);
 
   useEffect(() => {
@@ -30,7 +33,7 @@ const Questions: NextPage = () => {
             <tr>
               <td className="min-w-[60px] lg:min-w-[80px]"></td>
               <td className="w-full">제목</td>
-              <td className="min-w-[100px] text-right pr-4">작성 일시</td>
+              <td className="lg:min-w-[100px] min-w-[80px] text-right pr-4">작성 일시</td>
             </tr>
           </thead>
           <tbody>
@@ -50,8 +53,10 @@ const Questions: NextPage = () => {
                       </div>
                     )}
                   </td>
-                  <td className="pt-1 w-full">{a.title}</td>
-                  <td className="text-sm text-right pr-4 whitespace-nowrap" rowSpan={2}>
+                  <td className="pt-1 w-full">
+                    <strong>[{courses.find((c) => c._id === a.course)?.name}]</strong> {a.title}
+                  </td>
+                  <td className="text-[10px] text-right pr-4 whitespace-nowrap" rowSpan={2}>
                     {a.createdAt}
                   </td>
                 </tr>
