@@ -29,11 +29,7 @@ const nextConfig = {
   },
   env: {
     production,
-    API_HOST: "http://172.30.1.1:8000",
-  },
-  i18n: {
-    defaultLocale: "ko",
-    locales: ["ko", "en"],
+    API_HOST: "https://team6-hackathon.ycc.club/",
   },
   serverRuntimeConfig: {
     API_HOST: HOST,
