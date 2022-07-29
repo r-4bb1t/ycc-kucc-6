@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Board, Course } from "constant";
 import axios from "axios";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -87,17 +88,23 @@ const Home: NextPage = () => {
           </tbody>
         </table>
 
-        <div className="w-full flex justify-center gap-4 items-center text-slate-700 font-bold mt-10">
-          검색
-          <input className="input bg-slate-200" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <button className="btn btn-ghost hover:bg-slate-200">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13">
-              <g strokeWidth="2" fill="none" className="stroke-slate-400">
-                <path d="M11.29 11.71l-4-4" />
-                <circle cx="5" cy="5" r="4" />
-              </g>
-            </svg>
-          </button>
+        <div className="w-full grid grid-cols-[100px_1fr_100px] items-center mt-10">
+          <div></div>
+          <div className="w-full flex justify-center gap-4 items-center text-slate-700 font-bold">
+            검색
+            <input className="input bg-slate-200" value={search} onChange={(e) => setSearch(e.target.value)} />
+            <button className="btn btn-ghost hover:bg-slate-200">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13">
+                <g strokeWidth="2" fill="none" className="stroke-slate-400">
+                  <path d="M11.29 11.71l-4-4" />
+                  <circle cx="5" cy="5" r="4" />
+                </g>
+              </svg>
+            </button>
+          </div>
+          <Link href={`/${router.query["code"]}/new`}>
+            <a className="btn btn-ghost hover:bg-slate-300 bg-slate-200">글쓰기</a>
+          </Link>
         </div>
       </main>
 
