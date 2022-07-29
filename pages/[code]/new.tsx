@@ -40,17 +40,13 @@ const NewArticle: NextPage = () => {
       push({
         type: "success",
         message: "게시글을 등록했습니다.",
-        onClose: () => {
-          router.back();
-        },
-      });
-    } else {
-      push({
-        type: "error",
-        message: `게시글 등록에 실패했습니다. error code ${res.status}`,
-        onClose: () => {},
       });
     }
+
+    push({
+      type: "error",
+      message: `게시글 등록에 실패했습니다. error code ${res.status}`,
+    });
     setIsLoading(false);
   };
 

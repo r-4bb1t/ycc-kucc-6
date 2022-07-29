@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Article, Course, Comment } from "../../constant";
 import axios from "axios";
 import { useAlertContext } from "hooks/useAlertContext";
+import { format } from "date-fns";
 
 const ArticlePage: NextPage = () => {
   const router = useRouter();
@@ -27,27 +28,37 @@ const ArticlePage: NextPage = () => {
   const handleClick = async () => {
     setIsLoading(true);
     const res = await axios.post(
-      `${process.env.API_HOST}/board/${router.query["code"]}/${router.query["id"]}/comments`,
+      `${process.env.API_HOST}/board/${router.query["code"]}/${router.query["id"]}/comment`,
       {
         content: content,
       },
     );
+    console.log(res);
 
-    if (res.data === 200) {
+    if (res.status === 200) {
       push({
         type: "success",
-        message: "게시글을 등록했습니다.",
-        onClose: () => {
-          router.back();
-        },
+        message: "댓글을 등록했습니다.",
       });
-    } else {
-      push({
-        type: "error",
-        message: `게시글 등록에 실패했습니다. error code ${res.data}`,
-        onClose: () => {},
+      setArticle((a) => {
+        return {
+          board: a.board,
+          comments: [
+            ...a.comments,
+            { content: content, _id: "", board: "", createdAt: format(new Date(), "yyyy-MM-dd hh:mm") },
+          ],
+        };
       });
+      setContent("");
+      setIsLoading(false);
+      return;
     }
+
+    push({
+      type: "error",
+      message: `댓글 등록에 실패했습니다. error code ${res.data}`,
+    });
+
     setIsLoading(false);
   };
 
@@ -101,9 +112,9 @@ const ArticlePage: NextPage = () => {
 
         {article?.comments &&
           article.comments.map((c, i) => (
-            <div className="odd:bg-slate-200 bg-slate-100 px-5 py-3 grid grid-cols-[1fr_200px]" key={i}>
-              <div>{c.content}</div>
-              <div className="text-sm place-self-end">{c.createdAt}</div>
+            <div className="odd:bg-slate-200 bg-slate-100 px-5 py-3" key={i}>
+              {c.content}
+              <span className="text-[10px] ml-2 text-slate-600">{c.createdAt}</span>
             </div>
           ))}
         <div className="flex items-center gap-4 mt-4">

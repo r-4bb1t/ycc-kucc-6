@@ -6,7 +6,6 @@ interface IAlert {
   type: "info" | "success" | "warning" | "error";
   title?: string;
   message: string;
-  onClose: Function;
 }
 
 interface IAlertsWithId extends IAlert {
@@ -41,16 +40,15 @@ const AlertContextProvider: FC = ({ children }) => {
         close,
       }}
     >
-      <aside className={"fixed top-20 inset-x-4 container mx-auto flex flex-col gap-4 z-[1000]"}>
+      <aside className={"fixed top-20 px-4 w-full container mx-auto flex flex-col gap-4 z-[1000]"}>
         <AnimatePresence>
-          {alerts.map(({ id, type, title, message, onClose }) => (
+          {alerts.map(({ id, type, title, message }) => (
             <Alert
               key={id}
               type={type}
               title={title}
               message={message}
               close={() => {
-                onClose();
                 close(id);
               }}
             />
