@@ -97,7 +97,7 @@ const ArticlePage: NextPage = () => {
                   </div>
                 </td>
                 <td className="w-full break-all">{article.board.title}</td>
-                <td className=";g:min-w-[200px] min-w-[100px] text-right pr-4 text-[10px] lg:text-base">
+                <td className="lg:min-w-[200px] min-w-[100px] text-right pr-4 text-[10px] lg:text-base">
                   {article.board.createdAt}
                 </td>
               </tr>
