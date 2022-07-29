@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { Article, Board, Course } from "constant";
 import axios from "axios";
 import Link from "next/link";
+import { useUnivContext } from "hooks/useUnivContext";
 
 const CoursePage: NextPage = () => {
   const router = useRouter();
@@ -14,12 +15,13 @@ const CoursePage: NextPage = () => {
   const [info, setInfo] = useState(null as unknown as Course);
   const [articles, setArticles] = useState([] as Board[]);
   const [filteredArticles, setFilteredArticles] = useState([] as Board[]);
+  const { univ } = useUnivContext();
 
   const fecthData = useCallback(async () => {
     if (!router.query["code"]) return;
     const aData = await axios.get(`${process.env.API_HOST}/board/${router.query["code"]}`);
     setArticles(aData.data.reverse());
-    const iData = await axios.get(`${process.env.API_HOST}/courses`);
+    const iData = await axios.get(`${process.env.API_HOST}/courses?school=${["고려대학교", "연세대학교"][univ]}`);
     setInfo(iData.data.find((i: Course) => i._id === router.query["code"]));
   }, [router.query]);
 
