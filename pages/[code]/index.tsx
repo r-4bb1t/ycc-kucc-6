@@ -57,7 +57,7 @@ const CoursePage: NextPage = () => {
             <tr>
               <td className="min-w-[60px] lg:min-w-[80px]"></td>
               <td className="w-full">제목</td>
-              <td className="lg:min-w-[100px] min-w-[80px] text-right pr-4">작성 일시</td>
+              <td className="min-w-[100px] hidden lg:table-cell text-right pr-4">작성 일시</td>
             </tr>
           </thead>
           <tbody>
@@ -70,7 +70,7 @@ const CoursePage: NextPage = () => {
                     router.push(`${info._id}/${a._id}`);
                   }}
                 >
-                  <td rowSpan={2} className="min-w-[60px] lg:min-w-[80px]">
+                  <td rowSpan={2} className="lg:min-w-[100px] min-w-[60px]">
                     <div className="w-full flex justify-center">
                       {a.isQuestion ? (
                         <div className="px-2 py-0.5 rounded bg-red-200 w-fit text-sm lg:text-base">질문</div>
@@ -79,8 +79,10 @@ const CoursePage: NextPage = () => {
                       )}
                     </div>
                   </td>
-                  <td className="pt-1 w-full">{a.title}</td>
-                  <td className="lg:min-w-[100px] min-w-[80px] text-[10px] text-right pr-4" rowSpan={2}>
+                  <td className="pt-1 w-full">
+                    <div className="line-clamp-1">{a.title}</div>
+                  </td>
+                  <td className="min-w-[100px] hidden lg:table-cell text-[10px] text-right pr-4" rowSpan={2}>
                     {/* {format(, "yyyy-MM-dd hh:mm")} */}
                     {a.createdAt}
                   </td>

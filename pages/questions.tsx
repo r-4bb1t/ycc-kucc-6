@@ -52,7 +52,7 @@ const Questions: NextPage = () => {
             <tr>
               <td className="min-w-[60px] lg:min-w-[80px]"></td>
               <td className="w-full">제목</td>
-              <td className="lg:min-w-[100px] min-w-[80px] text-right pr-4">작성 일시</td>
+              <td className="hidden lg:table-cell min-w-[100px] text-right pr-4">작성 일시</td>
             </tr>
           </thead>
           <tbody>
@@ -65,7 +65,7 @@ const Questions: NextPage = () => {
                     router.push(`${a.course}/${a._id}`);
                   }}
                 >
-                  <td rowSpan={2} className="min-w-[60px] lg:min-w-[80px]">
+                  <td rowSpan={2} className="min-w-[60px] lg:min-w-[100px]">
                     {a.isQuestion && (
                       <div className="w-full flex justify-center">
                         <div className="px-2 py-0.5 rounded bg-red-200 w-fit text-sm lg:text-base">질문</div>
@@ -73,9 +73,12 @@ const Questions: NextPage = () => {
                     )}
                   </td>
                   <td className="pt-1 w-full">
-                    <strong>[{courses.find((c) => c._id === a.course)?.name}]</strong> {a.title}
+                    <strong className="text-[12px] lg:text-base">
+                      [{courses.find((c) => c._id === a.course)?.name}]
+                    </strong>
+                    <br className="lg:hidden" /> <span className=" line-clamp-1">{a.title}</span>
                   </td>
-                  <td className="lg:min-w-[100px] min-w-[80px] text-[10px] text-right pr-4" rowSpan={2}>
+                  <td className="hidden lg:table-cell min-w-[100px] text-[10px] text-right pr-4" rowSpan={2}>
                     {a.createdAt}
                   </td>
                 </tr>
