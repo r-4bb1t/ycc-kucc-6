@@ -29,6 +29,7 @@ const nextConfig = {
   },
   env: {
     production,
+    API_HOST: "http://localhost:3000/api",
   },
   i18n: {
     defaultLocale: "ko",

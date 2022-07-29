@@ -2,38 +2,30 @@ import Footer from "components/Footer";
 import Header from "components/Header";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { dummy } from "../../constant";
+import { useCallback, useEffect, useState } from "react";
 import { format } from "date-fns";
-import { throttle } from "throttle-debounce";
-
-const articles = [
-  {
-    id: 2,
-    title: "과제 블랙보드에 내는건가요?",
-    date: new Date(),
-    content:
-      "과제 블랙보드에 제출하면 되는지.. 메일로 보내야하는지.. 어렵네요ㅠ 어렵어렵어 렵어렵어렵어렵어렵어 렵어렵어렵 어렵 어렵 어 렵 어 렵어 렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵어렵",
-    isQuestion: true,
-  },
-  {
-    id: 1,
-    title: "내일 수업 없대요",
-    date: new Date(),
-    content: "짱신ㄴ남;;;",
-    isQuestion: false,
-  },
-];
+import { Board, Course } from "constant";
+import axios from "axios";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const info = dummy.find((d) => d.code === router.query["code"]);
   const [search, setSearch] = useState("");
-  const [filteredArticles, setFilteredArticles] = useState(articles);
+  const [info, setInfo] = useState(null as unknown as Course);
+  const [articles, setArticles] = useState([] as Board[]);
 
-  if (!info) {
-    return null;
-  }
+  const fecthData = useCallback(async () => {
+    const aData = await axios.get(`${process.env.API_HOST}/${router.query["code"]}`);
+    setArticles(aData.data);
+    const iData = await axios.get(`${process.env.API_HOST}/courses`);
+    setInfo(iData.data.find((i: Course) => i.id === router.query["code"]));
+  }, [router.query]);
+
+  useEffect(() => {
+    fecthData();
+  }, [fecthData]);
+
+  if (!info) return null;
+
   return (
     <div className="w-full pt-16 flex flex-col items-center">
       <Header />
@@ -41,9 +33,9 @@ const Home: NextPage = () => {
       <main className="max-w-[960px] w-full my-10 min-h-screen">
         <div className="text-center flex flex-col gap-4">
           <div>
-            [{info.class}] {info.code}
+            [{info.department}] {info.courseNumber}
           </div>
-          <div className="font-bold text-slate-800 text-3xl">{info.title}</div>
+          <div className="font-bold text-slate-800 text-3xl">{info.name}</div>
           <div className="text-lg -mt-2">
             <strong>{info.professor}</strong> 교수님
           </div>
@@ -56,31 +48,34 @@ const Home: NextPage = () => {
             <td className="min-w-[100px] text-right pr-4">작성 일시</td>
           </thead>
           <tbody>
-            {filteredArticles.map((a, i) => (
+            {articles.map((a, i) => (
               <>
                 <tr
                   key={i}
                   className="cursor-pointer"
                   onClick={() => {
-                    router.push(`${info.code}/${a.id}`);
+                    router.push(`${info.id}/${a.id}`);
                   }}
                 >
                   <td rowSpan={2} className="min-w-[60px] lg:min-w-[80px]">
-                    {a.isQuestion && (
-                      <div className="w-full flex justify-center">
+                    <div className="w-full flex justify-center">
+                      {a.isQuestion ? (
                         <div className="px-2 py-0.5 rounded bg-red-200 w-fit text-sm lg:text-base">질문</div>
-                      </div>
-                    )}
+                      ) : (
+                        <div className="px-2 py-0.5 rounded bg-slate-300 w-fit text-sm lg:text-base">일반</div>
+                      )}
+                    </div>
                   </td>
-                  <td className="pt-1">{a.title}</td>
-                  <td className="text-sm text-right pr-4" rowSpan={2}>
-                    {format(a.date, "yyyy-MM-dd hh:mm")}
+                  <td className="pt-1 w-full">{a.title}</td>
+                  <td className="text-sm text-right pr-4 whitespace-nowrap" rowSpan={2}>
+                    {/* {format(, "yyyy-MM-dd hh:mm")} */}
+                    {a.createdAt}
                   </td>
                 </tr>
                 <tr
                   className="border-b-slate-300 border-b-[1px] cursor-pointer"
                   onClick={() => {
-                    router.push(`${info.code}/${a.id}`);
+                    router.push(`${info.id}/${a.id}`);
                   }}
                 >
                   <td className="text-slate-500 text-sm text-left pb-1 line-clamp-1">

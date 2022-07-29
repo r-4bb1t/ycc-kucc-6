@@ -7,7 +7,9 @@ export default function Header() {
   return (
     <header className="w-full h-16 fixed top-0 inset-x-0 border-b-[1px] bg-white border-b-slate-300 grid grid-cols-[100px_1fr_100px] items-center z-10 px-10">
       <Link href="/">
-        <a className="btn btn-ghost hover:bg-slate-200">독강화이팅</a>
+        <a className="btn btn-ghost hover:bg-slate-200 px-1 py-0.5">
+          <img src="/logo.png" />
+        </a>
       </Link>
       <div className="flex h-full items-end justify-center">
         <Link href="/">

@@ -1,30 +1,42 @@
 import Footer from "components/Footer";
 import Header from "components/Header";
+import { Course } from "constant";
 import type { NextPage } from "next";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { throttle } from "throttle-debounce";
-import { dummy } from "../constant";
+import axios from "axios";
 
 const Home: NextPage = () => {
-  const [filteredDummy, setFilteredDummy] = useState(dummy);
+  const [courses, setCourses] = useState([] as Course[]);
+  const [filteredCourses, setFilteredCourses] = useState([] as Course[]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     throttle(200, () => {
-      if (search.length === 0) setFilteredDummy(dummy);
+      if (search.length === 0) setFilteredCourses(courses);
       else
-        setFilteredDummy(
-          dummy.filter(
+        setFilteredCourses(
+          courses.filter(
             (d) =>
-              d.title.toLowerCase().includes(search.toLowerCase()) ||
-              d.code.toLowerCase().includes(search.toLowerCase()) ||
+              d.name.toLowerCase().includes(search.toLowerCase()) ||
+              d.department.toLowerCase().includes(search.toLowerCase()) ||
               d.professor.toLowerCase().includes(search.toLowerCase()) ||
-              d.class.toLowerCase().includes(search.toLowerCase()),
+              d.courseNumber.toLowerCase().includes(search.toLowerCase()),
           ),
         );
     })();
   }, [search]);
+
+  const fecthData = useCallback(async () => {
+    const data = await axios.get(`${process.env.API_HOST}/courses`);
+    setCourses(data.data);
+    setFilteredCourses(data.data);
+  }, [setCourses]);
+
+  useEffect(() => {
+    fecthData();
+  }, [fecthData]);
 
   return (
     <div className="w-full pt-16 flex flex-col items-center">
@@ -53,15 +65,15 @@ const Home: NextPage = () => {
             </>
           )}
         </div>
-        {filteredDummy.length > 0 ? (
+        {filteredCourses.length > 0 ? (
           <div className="w-full grid grid-cols-3 gap-4">
-            {filteredDummy.map((d, i) => (
-              <Link key={i} href={`/${d.code}`}>
+            {filteredCourses.map((d, i) => (
+              <Link key={i} href={`/${d.id}`}>
                 <a className="bg-slate-300 odd:bg-slate-200 rounded-lg px-4 py-2 hover:bg-slate-400 transition">
                   <div className="text-sm text-slate-700 mb-1">
-                    [{d.class}] {d.code}
+                    [{d.department}] {d.courseNumber}
                   </div>
-                  <div className="text-lg font-bold">{d.title}</div>
+                  <div className="text-lg font-bold">{d.name}</div>
                   <div>
                     <strong>{d.professor}</strong> 교수님
                   </div>
