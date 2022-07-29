@@ -1,9 +1,12 @@
 import Link from "next/link";
 import cc from "classcat";
 import { useRouter } from "next/router";
+import { useUnivContext } from "hooks/useUnivContext";
+import { UNIV } from "constant";
 
 export default function Header() {
   const router = useRouter();
+  const { univ, setUniv } = useUnivContext();
   return (
     <>
       <header className="w-full h-16 fixed top-0 inset-x-0 border-b-[1px] bg-white border-b-slate-300 grid lg:grid-cols-[100px_1fr_100px] grid-cols-[0_1fr_0] items-center z-10 px-10 overflow-x-auto no-scrollbar">
@@ -35,6 +38,10 @@ export default function Header() {
           </Link>
         </div>
         <div className="justify-end hidden lg:flex">
+          <select className="select" value={univ} onChange={(e) => setUniv(e.target.value)}>
+            <option value={UNIV.korea}>고려대</option>
+            <option value={UNIV.yonsei}>연세대</option>
+          </select>
           <button className="btn btn-ghost hover:bg-slate-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"

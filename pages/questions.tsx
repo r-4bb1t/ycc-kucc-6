@@ -5,23 +5,42 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Article, Board, Course } from "constant";
 import axios from "axios";
+import { useUnivContext } from "hooks/useUnivContext";
 
 const Questions: NextPage = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [articles, setArticles] = useState([] as Board[]);
+  const [filteredArticles, setFilteredArticles] = useState([] as Board[]);
   const [courses, setCourses] = useState([] as Course[]);
+  const { univ } = useUnivContext();
 
   const fecthData = useCallback(async () => {
-    const qData = await axios.get(`${process.env.API_HOST}/board/questions`);
-    setArticles(qData.data.reverse());
-    const cData = await axios.get(`${process.env.API_HOST}/courses`);
+    const cData = await axios.get(`${process.env.API_HOST}/courses?school=${["고려대학교", "연세대학교"][univ]}`);
     setCourses(cData.data);
-  }, []);
+
+    const qData = await axios.get(`${process.env.API_HOST}/board/questions`);
+    setArticles(qData.data.reverse().filter((a: Board) => cData.data.some((c: Course) => c._id === a.course)));
+  }, [univ]);
 
   useEffect(() => {
     fecthData();
   }, [fecthData]);
+
+  useEffect(() => {
+    setFilteredArticles(articles);
+  }, [articles]);
+
+  const handleClick = () => {
+    setFilteredArticles(
+      articles.filter(
+        (a) =>
+          courses.find((c) => c._id === a.course)?.name.includes(search) ||
+          a.title.includes(search) ||
+          a.content.includes(search),
+      ),
+    );
+  };
 
   return (
     <div className="w-full pt-16 flex flex-col items-center">
@@ -37,7 +56,7 @@ const Questions: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {articles.map((a, i) => (
+            {filteredArticles.map((a, i) => (
               <>
                 <tr
                   key={i}
@@ -79,7 +98,7 @@ const Questions: NextPage = () => {
         <div className="w-full flex justify-center gap-4 items-center text-slate-700 font-bold mt-10">
           검색
           <input className="input bg-slate-200" value={search} onChange={(e) => setSearch(e.target.value)} />
-          <button className="btn btn-ghost hover:bg-slate-200">
+          <button className="btn btn-ghost hover:bg-slate-200" onClick={handleClick}>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13">
               <g strokeWidth="2" fill="none" className="stroke-slate-400">
                 <path d="M11.29 11.71l-4-4" />

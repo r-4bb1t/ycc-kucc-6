@@ -7,6 +7,7 @@ import { Article, Course, Comment } from "../../constant";
 import axios from "axios";
 import { useAlertContext } from "hooks/useAlertContext";
 import { format } from "date-fns";
+import { useUnivContext } from "hooks/useUnivContext";
 
 const ArticlePage: NextPage = () => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const ArticlePage: NextPage = () => {
   const [article, setArticle] = useState(null as unknown as Article);
   const [content, setContent] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { univ } = useUnivContext();
 
   const { push } = useAlertContext();
 
@@ -21,7 +23,7 @@ const ArticlePage: NextPage = () => {
     if (!router.query["code"]) return;
     const aData = await axios.get(`${process.env.API_HOST}/board/${router.query["code"]}/${router.query["id"]}`);
     setArticle(aData.data);
-    const iData = await axios.get(`${process.env.API_HOST}/courses`);
+    const iData = await axios.get(`${process.env.API_HOST}/courses?school=${["고려대학교", "연세대학교"][univ]}`);
     setInfo(iData.data.find((i: Course) => i._id === router.query["code"]));
   }, [router.query]);
 

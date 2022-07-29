@@ -1,17 +1,19 @@
 import Footer from "components/Footer";
 import Header from "components/Header";
-import { Course } from "constant";
+import { Course, UNIV } from "constant";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { throttle } from "throttle-debounce";
 import axios from "axios";
+import { useUnivContext } from "hooks/useUnivContext";
 
 const Home: NextPage = () => {
   const [courses, setCourses] = useState([] as Course[]);
   const [filteredCourses, setFilteredCourses] = useState([] as Course[]);
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const { univ } = useUnivContext();
 
   useEffect(() => {
     throttle(200, () => {
@@ -20,21 +22,21 @@ const Home: NextPage = () => {
         setFilteredCourses(
           courses.filter(
             (d) =>
-              d.name.toLowerCase().includes(search.toLowerCase()) ||
-              d.department.toLowerCase().includes(search.toLowerCase()) ||
-              d.professor.toLowerCase().includes(search.toLowerCase()) ||
-              d.courseNumber.toLowerCase().includes(search.toLowerCase()),
+              (d.name ?? "").toLowerCase().includes(search.toLowerCase()) ||
+              (d.department ?? "").toLowerCase().includes(search.toLowerCase()) ||
+              (d.professor ?? "").toLowerCase().includes(search.toLowerCase()) ||
+              (d.courseNumber ?? "").toLowerCase().includes(search.toLowerCase()),
           ),
         );
     })();
   }, [search]);
 
   const fecthData = useCallback(async () => {
-    const data = await axios.get(`${process.env.API_HOST}/courses`);
+    const data = await axios.get(`${process.env.API_HOST}/courses?school=${["고려대학교", "연세대학교"][univ]}`);
     setCourses(data.data);
     setFilteredCourses(data.data);
     setIsLoading(false);
-  }, [setCourses]);
+  }, [setCourses, univ]);
 
   useEffect(() => {
     fecthData();

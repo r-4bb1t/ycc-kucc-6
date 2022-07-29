@@ -13,6 +13,7 @@ const CoursePage: NextPage = () => {
   const [search, setSearch] = useState("");
   const [info, setInfo] = useState(null as unknown as Course);
   const [articles, setArticles] = useState([] as Board[]);
+  const [filteredArticles, setFilteredArticles] = useState([] as Board[]);
 
   const fecthData = useCallback(async () => {
     if (!router.query["code"]) return;
@@ -25,6 +26,14 @@ const CoursePage: NextPage = () => {
   useEffect(() => {
     fecthData();
   }, [fecthData]);
+
+  useEffect(() => {
+    setFilteredArticles(articles);
+  }, [articles]);
+
+  const handleClick = () => {
+    setFilteredArticles(articles.filter((a) => a.title.includes(search) || a.content.includes(search)));
+  };
 
   return (
     <div className="w-full pt-16 flex flex-col items-center">
@@ -50,7 +59,7 @@ const CoursePage: NextPage = () => {
             </tr>
           </thead>
           <tbody>
-            {articles.map((a, i) => (
+            {filteredArticles.map((a, i) => (
               <>
                 <tr
                   key={i}
@@ -95,7 +104,7 @@ const CoursePage: NextPage = () => {
           <div className="w-full flex justify-center gap-4 items-center text-slate-700 font-bold whitespace-nowrap">
             <span className="hidden lg:inline">검색</span>
             <input className="input bg-slate-200 w-full" value={search} onChange={(e) => setSearch(e.target.value)} />
-            <button className="btn btn-ghost hover:bg-slate-200">
+            <button className="btn btn-ghost hover:bg-slate-200" onClick={handleClick}>
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13">
                 <g strokeWidth="2" fill="none" className="stroke-slate-400">
                   <path d="M11.29 11.71l-4-4" />

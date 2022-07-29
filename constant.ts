@@ -36,3 +36,8 @@ export interface Comment {
   board: string;
   createdAt: string;
 }
+
+export enum UNIV {
+  korea,
+  yonsei,
+}
