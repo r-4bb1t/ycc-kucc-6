@@ -57,7 +57,7 @@ const CoursePage: NextPage = () => {
             <tr>
               <td className="min-w-[60px] lg:min-w-[80px]"></td>
               <td className="w-full">제목</td>
-              <td className="min-w-[100px] text-right pr-4">작성 일시</td>
+              <td className="lg:min-w-[100px] min-w-[80px] text-right pr-4">작성 일시</td>
             </tr>
           </thead>
           <tbody>
@@ -80,7 +80,7 @@ const CoursePage: NextPage = () => {
                     </div>
                   </td>
                   <td className="pt-1 w-full">{a.title}</td>
-                  <td className="text-[10px] text-right pr-4 whitespace-nowrap" rowSpan={2}>
+                  <td className="lg:min-w-[100px] min-w-[80px] text-[10px] text-right pr-4" rowSpan={2}>
                     {/* {format(, "yyyy-MM-dd hh:mm")} */}
                     {a.createdAt}
                   </td>

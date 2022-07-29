@@ -12,6 +12,6 @@
   }
 
   .alert {
-    @apply bg-slate-200 max-w-full;
+    @apply bg-slate-200 max-w-full w-[600px];
   }
 }

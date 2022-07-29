@@ -75,7 +75,7 @@ const Questions: NextPage = () => {
                   <td className="pt-1 w-full">
                     <strong>[{courses.find((c) => c._id === a.course)?.name}]</strong> {a.title}
                   </td>
-                  <td className="text-[10px] text-right pr-4 whitespace-nowrap" rowSpan={2}>
+                  <td className="lg:min-w-[100px] min-w-[80px] text-[10px] text-right pr-4" rowSpan={2}>
                     {a.createdAt}
                   </td>
                 </tr>
