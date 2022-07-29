@@ -67,8 +67,8 @@ const Home: NextPage = () => {
             </td>
           </thead>
           <tbody>
-            <td colSpan={2} className="p-10 h-[600px] block">
-              <textarea className="w-full p-2 resize-none h-full bg-slate-100 overflow-y-auto" placeholder="내용" />
+            <td colSpan={2} className="h-[600px] block">
+              <textarea className="w-full p-10 resize-none h-full bg-slate-100 overflow-y-auto" placeholder="내용" />
             </td>
           </tbody>
         </table>

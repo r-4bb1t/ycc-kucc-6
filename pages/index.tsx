@@ -50,7 +50,6 @@ const Home: NextPage = () => {
           </div>
           <input className="input bg-slate-200 w-80" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-
         <div className="mb-2">
           {search === "" ? (
             "전체보기"
