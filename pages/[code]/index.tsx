@@ -25,8 +25,6 @@ const Home: NextPage = () => {
     fecthData();
   }, [fecthData]);
 
-  if (!info) return null;
-
   return (
     <div className="w-full pt-16 flex flex-col items-center">
       <Header />
@@ -34,11 +32,11 @@ const Home: NextPage = () => {
       <main className="max-w-[960px] w-full my-10 min-h-screen">
         <div className="text-center flex flex-col gap-4">
           <div>
-            [{info.department}] {info.courseNumber}
+            [{info?.department}] {info?.courseNumber}
           </div>
-          <div className="font-bold text-slate-800 text-3xl">{info.name}</div>
+          <div className="font-bold text-slate-800 text-3xl">{info?.name}</div>
           <div className="text-lg -mt-2">
-            <strong>{info.professor}</strong> 교수님
+            <strong>{info?.professor}</strong> 교수님
           </div>
         </div>
 
