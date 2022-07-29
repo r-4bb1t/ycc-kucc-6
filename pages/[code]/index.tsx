@@ -3,11 +3,12 @@ import Header from "components/Header";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { dummy } from "../constant";
+import { dummy } from "../../constant";
 import { format } from "date-fns";
 
 const articles = [
   {
+    id: 2,
     title: "과제 블랙보드에 내는건가요?",
     date: new Date(),
     content:
@@ -15,6 +16,7 @@ const articles = [
     isQuestion: true,
   },
   {
+    id: 1,
     title: "내일 수업 없대요",
     date: new Date(),
     content: "짱신ㄴ남;;;",
@@ -52,7 +54,13 @@ const Home: NextPage = () => {
           <tbody>
             {articles.map((a, i) => (
               <>
-                <tr key={i}>
+                <tr
+                  key={i}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(`${info.code}/${a.id}`);
+                  }}
+                >
                   <td rowSpan={2} className="min-w-[60px] lg:min-w-[80px]">
                     {a.isQuestion && (
                       <div className="w-full flex justify-center">
@@ -65,7 +73,12 @@ const Home: NextPage = () => {
                     {format(a.date, "yyyy-MM-dd hh:mm")}
                   </td>
                 </tr>
-                <tr className="border-b-slate-300 border-b-[1px]">
+                <tr
+                  className="border-b-slate-300 border-b-[1px] cursor-pointer"
+                  onClick={() => {
+                    router.push(`${info.code}/${a.id}`);
+                  }}
+                >
                   <td className="text-slate-500 text-sm text-left pb-1 line-clamp-1">
                     <div className="line-clamp-1">{a.content}</div>
                   </td>
