@@ -5,17 +5,17 @@ import { useRouter } from "next/router";
 export default function Header() {
   const router = useRouter();
   return (
-    <header className="w-full h-16 fixed top-0 inset-x-0 border-b-[1px] bg-white border-b-slate-300 grid grid-cols-[100px_1fr_100px] items-center z-10 px-10">
+    <header className="w-full h-16 fixed top-0 inset-x-0 border-b-[1px] bg-white border-b-slate-300 grid lg:grid-cols-[100px_1fr_100px] grid-cols-[0_1fr_0] items-center z-10 px-10 overflow-x-auto no-scrollbar">
       <Link href="/">
         <a className="btn btn-ghost hover:bg-slate-200 px-1 py-0.5">
-          <img src="/logo.png" />
+          <img src="/logo.png" className="hidden lg:block" />
         </a>
       </Link>
       <div className="flex h-full items-end justify-center">
         <Link href="/">
           <a
             className={cc([
-              "hover:bg-slate-200 transition text-lg h-full flex items-center pt-2 px-4 border-b-4 border-b-transparent",
+              "hover:bg-slate-200 transition text-lg h-full flex items-center pt-2 px-4 border-b-4 border-b-transparent whitespace-nowrap",
               router.asPath === "/" && "font-bold !border-b-slate-600",
             ])}
           >
@@ -25,7 +25,7 @@ export default function Header() {
         <Link href="/questions">
           <a
             className={cc([
-              "hover:bg-slate-200 transition text-lg h-full flex items-center pt-2 px-4 border-b-4 border-b-transparent",
+              "hover:bg-slate-200 transition text-lg h-full flex items-center pt-2 px-4 border-b-4 border-b-transparent whitespace-nowrap",
               router.asPath === "/questions" && "font-bold !border-b-slate-600",
             ])}
           >
@@ -33,7 +33,7 @@ export default function Header() {
           </a>
         </Link>
       </div>
-      <div className="flex justify-end">
+      <div className="justify-end hidden lg:flex">
         <button className="btn btn-ghost hover:bg-slate-200">
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -29,7 +29,7 @@ const nextConfig = {
   },
   env: {
     production,
-    API_HOST: "https://ycc-kucc-6.vercel.app/api",
+    API_HOST: "http://172.30.1.1:8000",
   },
   i18n: {
     defaultLocale: "ko",

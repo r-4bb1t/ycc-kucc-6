@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 @layer components {
-    
+  .no-scrollbar {
+    @apply [scrollbar-width:none] [scrollbar-height:none];
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    @apply hidden;
+  }
 }

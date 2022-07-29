@@ -3,16 +3,16 @@ import Header from "components/Header";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
-import { Board } from "constant";
+import { Article, Board } from "constant";
 import axios from "axios";
 
-const Home: NextPage = () => {
+const Questions: NextPage = () => {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [articles, setArticles] = useState([] as Board[]);
 
   const fecthData = useCallback(async () => {
-    const qData = await axios.get(`${process.env.API_HOST}/questions`);
+    const qData = await axios.get(`${process.env.API_HOST}/board/questions`);
     setArticles(qData.data);
   }, []);
 
@@ -24,12 +24,14 @@ const Home: NextPage = () => {
     <div className="w-full pt-16 flex flex-col items-center">
       <Header />
 
-      <main className="max-w-[960px] w-full my-10 min-h-screen">
+      <main className="max-w-[960px] w-full my-10 min-h-screen px-4">
         <table className="w-full table-auto collapse mt-10">
           <thead className="bg-slate-100 font-bold border-y-[1px] border-y-slate-300">
-            <td className="min-w-[60px] lg:min-w-[80px]"></td>
-            <td className="w-full">제목</td>
-            <td className="min-w-[100px] text-right pr-4">작성 일시</td>
+            <tr>
+              <td className="min-w-[60px] lg:min-w-[80px]"></td>
+              <td className="w-full">제목</td>
+              <td className="min-w-[100px] text-right pr-4">작성 일시</td>
+            </tr>
           </thead>
           <tbody>
             {articles.map((a, i) => (
@@ -38,7 +40,7 @@ const Home: NextPage = () => {
                   key={i}
                   className="cursor-pointer"
                   onClick={() => {
-                    router.push(`${a.course}/${a.id}`);
+                    router.push(`${a.course}/${a._id}`);
                   }}
                 >
                   <td rowSpan={2} className="min-w-[60px] lg:min-w-[80px]">
@@ -54,9 +56,10 @@ const Home: NextPage = () => {
                   </td>
                 </tr>
                 <tr
+                  key={`${i}_`}
                   className="border-b-slate-300 border-b-[1px] cursor-pointer"
                   onClick={() => {
-                    router.push(`${a.course}/${a.id}`);
+                    router.push(`${a.course}/${a._id}`);
                   }}
                 >
                   <td className="text-slate-500 text-sm text-left pb-1 line-clamp-1">
@@ -87,4 +90,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Questions;

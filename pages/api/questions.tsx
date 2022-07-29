@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         content: "질문..",
         isQuestion: true,
         createdAt: "2022-02-10 20:00",
-        writer: "asdf",
+        //writer: "asdf",
         course: "2",
       },
     ]),

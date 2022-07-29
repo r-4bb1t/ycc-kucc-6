@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       {
         id: "1",
         content: "고급 정보 ㄳ",
-        writer: "",
+        //writer: "",
         board: "1",
         createdAt: "2022-02-20 20:00",
       },

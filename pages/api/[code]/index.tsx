@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         content: "저만 알고 있는 개꿀정보! 현채가 짱이라는 정보입니다. 감사합니다.",
         isQuestion: false,
         createdAt: "2022-02-10 20:00",
-        writer: "asdf",
+        //writer: "asdf",
         course: "1",
       },
     ]),
