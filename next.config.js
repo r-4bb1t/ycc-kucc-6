@@ -29,7 +29,7 @@ const nextConfig = {
   },
   env: {
     production,
-    API_HOST: "https://team6-hackathon.ycc.club/",
+    API_HOST: "https://team6-hackathon.ycc.club",
   },
   serverRuntimeConfig: {
     API_HOST: HOST,
