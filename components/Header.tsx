@@ -66,7 +66,7 @@ export default function Header() {
           </button>
         </div>
       </header>
-      <div className="w-full bg-slate-100 p-5 text-center lg:block hidden">
+      <div className="w-full bg-slate-100 p-5 text-center">
         <strong>
           넌 아직도 독강하니? 난
           <img src="/logo.png" className="inline h-8 pb-1" />
